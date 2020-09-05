@@ -1,0 +1,2 @@
+- forms in react native: React-hook-form https://react-hook-form.com/
+- look & feel kit: React Native Elements https://react-native-elements.github.io/react-native-elements/ , react-native-simple-radio-button
