@@ -1,18 +1,18 @@
-import * as React from 'react';
-import {} from 'react-native';
+import React from 'react';
+import { Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import { FormScreen } from './phone/form';
 
 const Tab = createMaterialTopTabNavigator();
-
+const car = () => {return(<Text>Hello from car</Text>)}
 const App = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator navigationOptions={({navigation}) => {}}>
         <Tab.Screen name='phone' component={FormScreen}/>
-        {/* <Tab.Screen name='car' component={}/> */}
+        <Tab.Screen name='car' component={car}/>
       </Tab.Navigator>
     </NavigationContainer>
   );
