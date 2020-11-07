@@ -7,8 +7,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 export const pushToDatabase = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, JSON.stringify(value));
+    return true;
   } catch (error) {
-    console.log(`The key ${key} was not stored, errors were encountered: ${error}`);
+    // console.log(`The key ${key} was not stored, errors were encountered: ${error}`);
+    return false;
   }
 };
 
