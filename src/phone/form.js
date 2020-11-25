@@ -15,7 +15,7 @@ const FormScreen = () => {
 
     const formFieldKeys = ['text_message_alarm', 'text_message_gps', 'contact_method', 'contact_number', 'home_address', 'lock_screen_password'];
 
-    const [disablePhoneField, setDisablePhoneField] = useState(false);
+    const [contact, setcontact] = useState(2);
 
     const { control, handleSubmit, errors, setValue, getValues } = useForm();
 
@@ -65,18 +65,22 @@ const FormScreen = () => {
     return (
         <View style={{ flex: 1 }}>
             <ScrollView style={{ backgroundColor: COLOR_PALETTE.light_gray }}>
-                <View style={{ marginBottom: 70 }}>
+                <View style={{ marginBottom: 75 }}>
                     <InfoLabel title='LOST' color={COLOR_PALETTE.blue} information={PHONE_LOST_INFO}/>
                     <Controller
                         control={control}
                         name={formFieldKeys[0]}
                         defaultValue=''
+                        rules={{
+                            required: { value: true, message: 'This Field is Required.' }
+                        }}
                         render={({ onChange, value }) => (
                             <Input
                                 label='Text Message to Sound Alarm'
                                 labelStyle={styles.inputLabel}
                                 leftIcon={otherStyles.messageIcon}
                                 inputStyle={styles.userInput}
+                                errorMessage={errors.text_message_alarm && errors.text_message_alarm.message}
                                 onChangeText={(input) => onChange(input) }
                                 value={value}
                             />
@@ -86,12 +90,16 @@ const FormScreen = () => {
                         control={control}
                         name={formFieldKeys[1]}
                         defaultValue=''
+                        rules={{
+                            required: { value: true, message: 'This Field is Required.' }
+                        }}
                         render={({ onChange, value }) => (
                             <Input 
                                 label='Text Message to Send GPS'
                                 labelStyle={styles.inputLabel}
                                 leftIcon={otherStyles.messageIcon}
                                 inputStyle={styles.userInput}
+                                errorMessage={errors.text_message_gps && errors.text_message_gps.message}
                                 onChangeText={(input) => onChange(input) }
                                 value={value}
                             />
@@ -102,7 +110,7 @@ const FormScreen = () => {
                     <Controller
                         control={control}
                         name={formFieldKeys[2]}
-                        defaultValue={-1}
+                        defaultValue={2}
                         render={({ onChange, value }) => {
                             const radio_props = [
                                 { label: 'Call', value: 0 },
@@ -125,9 +133,9 @@ const FormScreen = () => {
                                     <RadioForm
                                         ref={radioFormRef}
                                         radio_props={radio_props}
-                                        initial={-1}
+                                        initial={2}
                                         onPress={(value, index) => {
-                                            setDisablePhoneField(index === radio_props[2].value); 
+                                            setcontact(index); 
                                             onChange(index); 
                                         }}
                                     />
@@ -139,7 +147,10 @@ const FormScreen = () => {
                         control={control}
                         name={formFieldKeys[3]}
                         defaultValue=''
-                        rules={{ pattern: /^\+?\d{1,20}$/ }}
+                        rules={{ 
+                            pattern: /^\+?\d{1,20}$/,
+                            required: true
+                        }}
                         render={({ onChange, value }) => (
                             <Input 
                                 label='Phone Number'
@@ -152,18 +163,20 @@ const FormScreen = () => {
                                 }}
                                 inputStyle={styles.userInput}
                                 keyboardType='phone-pad'
-                                disabled={disablePhoneField}
+                                errorMessage={(errors.contact_number && contact != 2 && 'Please Enter a Valid Phone Number.') || ('')}
                                 onChangeText={(input) => onChange(input) }
                                 value={value}
                             />
                         )}
                     />
-                    {errors.contact_number && <Text>Please Enter a Valid Number</Text>}
 
                     <Controller
                         control={control}
                         name={formFieldKeys[4]}
                         defaultValue=''
+                        rules={{
+                            required: { value: true, message: 'This Field is Required.' }
+                        }}
                         render={({ onChange, value }) => (
                             <Input
                                 label='Delivery Address'
@@ -175,6 +188,7 @@ const FormScreen = () => {
                                     size: 20
                                 }}
                                 inputStyle={styles.userInput}
+                                errorMessage={errors.home_address && errors.home_address.message}
                                 onChangeText={(input) => onChange(input) }
                                 value={value}
                             />
@@ -186,9 +200,13 @@ const FormScreen = () => {
                         control={control}
                         name={formFieldKeys[5]}
                         defaultValue=''
+                        rules={{
+                            pattern: /^\d{6}$/,
+                            required: true
+                        }}
                         render={({ onChange, value }) => (
                             <Input
-                                label='Password'
+                                label='Access Pin'
                                 labelStyle={styles.inputLabel}
                                 leftIcon={{
                                     type: 'font-awesome-5',
@@ -197,6 +215,7 @@ const FormScreen = () => {
                                     size: 20
                                 }}
                                 inputStyle={styles.userInput}
+                                errorMessage={errors.lock_screen_password && 'Please Enter a 6 Digit Number.'}
                                 onChangeText={(input) => onChange(input) }
                                 value={value}
                             />
@@ -294,3 +313,9 @@ const otherStyles = {
 };
 
 export { FormScreen };
+
+/*
+NOTES:
+
+-required in RHF means that the field cannot be left empty/untouched. An input must be provided.
+*/
