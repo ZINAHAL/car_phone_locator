@@ -1,19 +1,31 @@
 package com.car_phone_locator;
 
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.media.AudioManager;
+import android.os.Build;
+import android.os.Handler;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
-  private final ReactNativeHost mReactNativeHost =
+  public static final String LOST_PHONE_CHANNEL_ID = "lost_phone_777";
+  public static FusedLocationProviderClient fusedLocationClient;
+  public static Handler ui_handler;
+  public static AudioManager audio_manager;
+
+    private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
         @Override
         public boolean getUseDeveloperSupport() {
@@ -45,6 +57,10 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    createNotificationChannels();
+    fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+    ui_handler = new Handler(getMainLooper());
+    audio_manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
   }
 
   /**
@@ -77,4 +93,18 @@ public class MainApplication extends Application implements ReactApplication {
       }
     }
   }
+
+  private void createNotificationChannels() {
+      // Below condition is needed as the Notification Channel class is not available in lower API levels. Only on Oreo and higher.
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+          NotificationChannel lost_phone_channel = new NotificationChannel(
+                  LOST_PHONE_CHANNEL_ID,
+                  "Lost Phone Section",
+                  NotificationManager.IMPORTANCE_DEFAULT
+          );
+          NotificationManager notificationManager = getSystemService(NotificationManager.class);
+          notificationManager.createNotificationChannel(lost_phone_channel);
+      }
+  }
+
 }
