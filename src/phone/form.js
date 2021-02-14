@@ -4,6 +4,7 @@ import { Input, Button } from 'react-native-elements';
 import RadioForm from 'react-native-simple-radio-button';
 import { useForm, Controller } from 'react-hook-form';
 import { Icon, Overlay } from 'react-native-elements'
+import { getSystemVersion } from 'react-native-device-info';
 
 import { pullFromDatabase, pushToDatabase } from '../common/dataStorage';
 import InfoLabel from '../common/InfoLabel';
@@ -14,24 +15,22 @@ const FORM_STORAGE_KEY = '@phone_hook_form';
 const FormScreen = () => {
 
     const formFieldKeys = ['text_message_alarm', 'text_message_gps', 'contact_method', 'contact_number', 'home_address', 'lock_screen_password'];
-
     const [contact, setcontact] = useState(2);
-
     const { control, handleSubmit, errors, setValue, getValues } = useForm();
-
     const radioFormRef = useRef(null);
-
     const [overlayGreen, setOverlayGreen] = useState(false);
-
     const toggleOverlayGreen = () => {
         setOverlayGreen(!overlayGreen);
     };
-
     const [overlayRed, setOverlayRed] = useState(false);
-
     const toggleOverlayRed = () => {
         setOverlayRed(!overlayRed);
     };
+
+    let compatibleAndroidVersion = true;
+    if(Number(getSystemVersion()[0]) >= 6) {
+        compatibleAndroidVersion = false;
+    }
 
     const onSubmit = (data) => {
 
@@ -67,44 +66,49 @@ const FormScreen = () => {
             <ScrollView style={{ backgroundColor: COLOR_PALETTE.light_gray }}>
                 <View style={{ marginBottom: 75 }}>
                     <InfoLabel title='LOST' color={COLOR_PALETTE.blue} information={PHONE_LOST_INFO}/>
-                    <Controller
-                        control={control}
-                        name={formFieldKeys[0]}
-                        defaultValue=''
-                        rules={{
-                            required: { value: true, message: 'This Field is Required.' }
-                        }}
-                        render={({ onChange, value }) => (
-                            <Input
-                                label='Text Message to Sound Alarm'
-                                labelStyle={styles.inputLabel}
-                                leftIcon={otherStyles.messageIcon}
-                                inputStyle={styles.userInput}
-                                errorMessage={errors.text_message_alarm && errors.text_message_alarm.message}
-                                onChangeText={(input) => onChange(input) }
-                                value={value}
+                    {compatibleAndroidVersion ?
+                        <View>
+                            <Controller
+                                control={control}
+                                name={formFieldKeys[0]}
+                                defaultValue=''
+                                rules={{
+                                    required: { value: true, message: 'This Field is Required.' }
+                                }}
+                                render={({ onChange, value }) => (
+                                    <Input
+                                        label='Text Message to Sound Alarm'
+                                        labelStyle={styles.inputLabel}
+                                        leftIcon={otherStyles.messageIcon}
+                                        inputStyle={styles.userInput}
+                                        errorMessage={errors.text_message_alarm && errors.text_message_alarm.message}
+                                        onChangeText={(input) => onChange(input) }
+                                        value={value}
+                                    />
+                                )}
                             />
-                        )}
-                    />
-                    <Controller
-                        control={control}
-                        name={formFieldKeys[1]}
-                        defaultValue=''
-                        rules={{
-                            required: { value: true, message: 'This Field is Required.' }
-                        }}
-                        render={({ onChange, value }) => (
-                            <Input 
-                                label='Text Message to Send GPS'
-                                labelStyle={styles.inputLabel}
-                                leftIcon={otherStyles.messageIcon}
-                                inputStyle={styles.userInput}
-                                errorMessage={errors.text_message_gps && errors.text_message_gps.message}
-                                onChangeText={(input) => onChange(input) }
-                                value={value}
+                            <Controller
+                                control={control}
+                                name={formFieldKeys[1]}
+                                defaultValue=''
+                                rules={{
+                                    required: { value: true, message: 'This Field is Required.' }
+                                }}
+                                render={({ onChange, value }) => (
+                                    <Input 
+                                        label='Text Message to Send GPS'
+                                        labelStyle={styles.inputLabel}
+                                        leftIcon={otherStyles.messageIcon}
+                                        inputStyle={styles.userInput}
+                                        errorMessage={errors.text_message_gps && errors.text_message_gps.message}
+                                        onChangeText={(input) => onChange(input) }
+                                        value={value}
+                                    />
+                                )}
                             />
-                        )}
-                    />
+                        </View>
+                    : <Text style={styles.disabled_features_warning}>The features in this section are unavailable on Android versions 6.0 or higher.</Text>
+                    }
 
                     <InfoLabel title='FOUND' color={COLOR_PALETTE.blue} information={PHONE_FOUND_INFO}/>
                     <Controller
@@ -299,6 +303,12 @@ const styles = StyleSheet.create({
     overlay_text: {
         fontSize: 18,
         fontWeight: 'bold'
+    },
+    disabled_features_warning: {
+        marginLeft: '4%',
+        marginBottom: '4%',
+        fontWeight: 'bold',
+        color: 'red'
     }
 });
 

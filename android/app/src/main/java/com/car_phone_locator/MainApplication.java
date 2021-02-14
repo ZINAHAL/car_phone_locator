@@ -3,7 +3,9 @@ package com.car_phone_locator;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Handler;
@@ -58,7 +60,22 @@ public class MainApplication extends Application implements ReactApplication {
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
     createNotificationChannels();
-    fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        // Disable 'AppBroadcastReceiver' broadcast receiver since it needs permissions of type dangerous which
+        // need to be granted at runtime, this goes again what the app is trying to do.
+
+        ComponentName appBroadcastReceiver = new ComponentName(this, AppBroadcastReceiver.class);
+        PackageManager packageManager = getPackageManager();
+        packageManager.setComponentEnabledSetting(
+                appBroadcastReceiver,
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP
+        );
+
+    } else {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+    }
+
     ui_handler = new Handler(getMainLooper());
     audio_manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
   }
