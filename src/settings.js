@@ -9,10 +9,6 @@ export const PHONE_FOUND_INFO = 'This section helps you if you lost your phone a
                                 'login screen. The founder will then be able to do the approperiate actions ' +
                                 'to help you retrieve your phone. ';
 
-export const PHONE_PROTECTION_INFO = 'This section allows you to secure your phone with a pin number, ' +
-                                     'so that your personal data will be protected. A new login screen ' +
-                                     'will be created for you. ';
-
 export const COLOR_PALETTE = {
     brown: '#dd6b4d',
     light_gray: '#fffbf3',
