@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">car_phone_locator</string>
+    <string name="call_button_heading">CALL OWNER</string>
+    <string name="owner_msg_heading">MESSAGE FROM OWNER</string>
+    <string name="pin_heading">ENTER PIN TO UNLOCK</string>
+    <string name="enter_button_title">Enter</string>
+    <string name="wrong_pin_warning">WRONG PIN, TRY AGAIN</string>
 </resources>

@@ -34,7 +34,7 @@ public class LostPhoneService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if ("TEXT_GPS_BATTERY".equals(intent.getStringExtra("action"))) {
+        if ("TEXT_GPS_BATTERY".equals(intent.getStringExtra(MainApplication.EXTRA_INTENT_ACTION))) {
             // Get current battery percentage
             IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
             Intent batteryStatus = registerReceiver(null, ifilter);
@@ -52,7 +52,7 @@ public class LostPhoneService extends Service {
                     }
                     String sms = "CURRENT LOCATION: " + (lat_lon_gps == null ? "gps turned off" : lat_lon_gps) + "\n" + "CURRENT BATTERY PERCENTAGE: " + batteryPct;
                     SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage(intent.getStringExtra("telephone"), null, sms, null, null);
+                    smsManager.sendTextMessage(intent.getStringExtra(MainApplication.EXTRA_TELEPHONE), null, sms, null, null);
                 }
             });
             stopSelf();

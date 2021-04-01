@@ -22,10 +22,14 @@ import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
-  public static final String LOST_PHONE_CHANNEL_ID = "lost_phone_777";
+    public static final String REACT_HOOK_FORM = "@phone_hook_form";
+    public static final String EXTRA_INTENT_ACTION = "com.car_phone_locator.INTENT_ACTION";
+    public static final String EXTRA_TELEPHONE = "com.car_phone_locator.TELEPHONE";
+    public static final String LOST_PHONE_CHANNEL_ID = "lost_phone_777";
   public static FusedLocationProviderClient fusedLocationClient;
   public static Handler ui_handler;
   public static AudioManager audio_manager;
+  public static PackageManager packageManager;
 
     private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
@@ -60,12 +64,12 @@ public class MainApplication extends Application implements ReactApplication {
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
     createNotificationChannels();
+    packageManager = getPackageManager();
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         // Disable 'AppBroadcastReceiver' broadcast receiver since it needs permissions of type dangerous which
         // need to be granted at runtime, this goes again what the app is trying to do.
 
         ComponentName appBroadcastReceiver = new ComponentName(this, AppBroadcastReceiver.class);
-        PackageManager packageManager = getPackageManager();
         packageManager.setComponentEnabledSetting(
                 appBroadcastReceiver,
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED,

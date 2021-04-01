@@ -97,7 +97,7 @@ const FormScreen = () => {
                                 leftIcon={otherStyles.messageIcon}
                                 inputStyle={styles.userInput}
                                 errorMessage={errors.text_message_alarm && errors.text_message_alarm.message}
-                                onChangeText={(input) => onChange(input) }
+                                onChangeText={(input) => onChange(input.toLowerCase()) }
                                 value={value}
                             />
                         )}
@@ -116,7 +116,7 @@ const FormScreen = () => {
                                 leftIcon={otherStyles.messageIcon}
                                 inputStyle={styles.userInput}
                                 errorMessage={errors.text_message_gps && errors.text_message_gps.message}
-                                onChangeText={(input) => onChange(input) }
+                                onChangeText={(input) => onChange(input.toLowerCase()) }
                                 value={value}
                             />
                         )}
@@ -163,7 +163,7 @@ const FormScreen = () => {
                                 leftIcon={otherStyles.messageIcon}
                                 inputStyle={styles.userInput}
                                 errorMessage={errors.text_messsage_lock && errors.text_messsage_lock.message}
-                                onChangeText={(input) => onChange(input) }
+                                onChangeText={(input) => onChange(input.toLowerCase()) }
                                 value={value}
                             />
                         )}
