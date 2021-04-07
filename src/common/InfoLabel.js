@@ -7,7 +7,7 @@ const InfoLabel = ({ title, information, color, normal }) => {
     if(normal) {
         return (
             <View 
-                style={styles.box} 
+                style={styles.normal} 
                 backgroundColor={color}
             >
                 <Text style={styles.text}>{title}</Text>
@@ -68,7 +68,7 @@ InfoLabel.defaultProps = {
 
 const styles = StyleSheet.create({
     main: {
-        height: '6%',
+        height: '12%',
         marginBottom: '4%'
     },
     box: {
@@ -85,6 +85,13 @@ const styles = StyleSheet.create({
     overlay_main: {
         width: '70%',
         padding: 25
+    },
+    normal: {
+        height: '12%',
+        marginBottom: '4%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row'
     }
 });
 
