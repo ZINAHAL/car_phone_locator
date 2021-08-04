@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, ScrollView, Text } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import { useForm, Controller } from 'react-hook-form';
@@ -7,7 +7,7 @@ import { getSystemVersion } from 'react-native-device-info';
 
 import { pullFromDatabase, pushToDatabase } from '../common/dataStorage';
 import InfoLabel from '../common/InfoLabel';
-import { PHONE_LOST_INFO, PHONE_FOUND_INFO, COLOR_PALETTE } from '../settings';
+import { PHONE_LOST_INFO, COLOR_PALETTE } from '../settings';
 import JavaHelpers from '../common/androidNativeModules';
 
 

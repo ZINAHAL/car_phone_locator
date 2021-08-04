@@ -13,13 +13,12 @@ public class NotificationProvider extends BroadcastReceiver {
         Intent broadcast_intent = new Intent(context, NotificationProvider.class);
         PendingIntent action_intent = PendingIntent.getBroadcast(context, 0, broadcast_intent, 0);
         return new NotificationCompat.Builder(context, MainApplication.LOST_PHONE_CHANNEL_ID)
-                .setContentTitle("Carphone Locator")
+                .setContentTitle("Car Phone Locator")
                 .setContentText("Sounding The Alarm! Hope you Found me!...")
-                .setSmallIcon(R.drawable.ic_android)
-                .addAction(R.mipmap.ic_launcher, "YES!", action_intent)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .addAction(R.drawable.success_notif, "YES!", action_intent)
                 .build();
     }
-
     @Override
     public void onReceive(Context context, Intent intent) {
         context.stopService(new Intent(context, LostPhoneService.class));

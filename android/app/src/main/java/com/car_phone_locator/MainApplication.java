@@ -62,7 +62,7 @@ public class MainApplication extends Application implements ReactApplication {
     createNotificationChannels();
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         // Disable 'AppBroadcastReceiver' broadcast receiver since it needs permissions of type dangerous which
-        // need to be granted at runtime, this goes again what the app is trying to do.
+        // need to be granted at runtime, this goes against what the app is trying to do.
 
         ComponentName appBroadcastReceiver = new ComponentName(this, AppBroadcastReceiver.class);
         PackageManager packageManager = getPackageManager();
@@ -72,10 +72,8 @@ public class MainApplication extends Application implements ReactApplication {
                 PackageManager.DONT_KILL_APP
         );
 
-    } else {
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     }
-
+    fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     ui_handler = new Handler(getMainLooper());
     audio_manager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
   }

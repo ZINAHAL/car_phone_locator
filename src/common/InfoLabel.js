@@ -68,7 +68,7 @@ InfoLabel.defaultProps = {
 
 const styles = StyleSheet.create({
     main: {
-        height: '12%',
+        height: 60,
         marginBottom: '4%'
     },
     box: {
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
         padding: 25
     },
     normal: {
-        height: '12%',
+        height: 60,
         marginBottom: '4%',
         alignItems: 'center',
         justifyContent: 'center',

@@ -11,7 +11,6 @@ import android.os.BatteryManager;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.telephony.SmsManager;
-import android.widget.Toast;
 import androidx.annotation.Nullable;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -87,7 +86,6 @@ public class LostPhoneService extends Service {
                     0
             );
         }
-        Toast.makeText(this, "service destroyed", Toast.LENGTH_LONG).show();
     }
 }
 
@@ -97,5 +95,6 @@ public class LostPhoneService extends Service {
 /*
 * 1- public static final AtomicReference<String> lat_lon_gps_holder = new AtomicReference<String>();
 * The above technique is used if a variable needs to be UPDATED by an anonymous class [ https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/package-summary.html ]
-*
+* OR, ANOTHER WAY:
+* Use arrays - see method 'getCurrentLocation(Promise promise)' in file JavaHelpersModule.java
 * */

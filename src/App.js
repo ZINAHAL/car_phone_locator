@@ -5,6 +5,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { Icon } from 'react-native-elements'
 
 import { FormScreen } from './phone/form';
+import { CarForm } from './car/carHomePage';
 import { COLOR_PALETTE } from './settings';
 
 const Tab = createMaterialTopTabNavigator();
@@ -37,7 +38,7 @@ const App = () => {
         />
         <Tab.Screen
           name='car' 
-          component={car}
+          component={CarForm}
           options={{
             tabBarIcon: ({}) => (
               <Icon
